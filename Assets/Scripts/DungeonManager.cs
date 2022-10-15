@@ -89,8 +89,8 @@ public class DungeonManager : MonoBehaviour
                 //  表示座標を設定する
                 gobj.transform.localPosition = new Vector3(-304 + x * 32, 304 - y * 32, 0);
                 //  マップスプライトの設定
-                gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[_mapData[0][y][x]]);
-                // gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[_mapDataList[0,y,x]]);
+                // gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[_mapData[0][y][x]]);
+                gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[_mapDataList[0,y,x]]);
             }
         }
     }
