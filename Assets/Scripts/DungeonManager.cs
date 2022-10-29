@@ -109,5 +109,7 @@ public class DungeonManager : MonoBehaviour
             _playerView.WalkAction(PlayerView.PlayerDirection.Back);
         else if(Input.GetKey(KeyCode.DownArrow))
             _playerView.WalkAction(PlayerView.PlayerDirection.Front);
+        else if(false == _playerView.IsWalking)
+            _playerView.SetAnimationState(PlayerView.PlayerMode.Idle);
     }
 }

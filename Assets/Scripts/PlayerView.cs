@@ -47,6 +47,7 @@ public class PlayerView : MonoBehaviour
     private float _walkSpeed = 1f;
     //  移動中かどうかの判定フラグ
     private bool _isWalking = false;
+    public  bool IsWalking => _isWalking;
     
     //  プレイヤー初期座標
     public Vector2 PlayerPos { get; private set; } = new Vector2(1, 1);
@@ -78,6 +79,7 @@ public class PlayerView : MonoBehaviour
         //  すでに移動中ならば何もしない
         if (_isWalking) return;
         _isWalking = true;
+        SetAnimationState((PlayerMode)playerDirection);
         //  移動開始
         StartCoroutine(Walking(playerDirection));
     }
