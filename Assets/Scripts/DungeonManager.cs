@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,9 @@ public class DungeonManager : MonoBehaviour
         },
     };
 
+    [SerializeField, Header("プレイヤーをアタッチする")]
+    private PlayerView _playerView = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,5 +97,17 @@ public class DungeonManager : MonoBehaviour
                 gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[_mapDataList[0,y,x]]);
             }
         }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.RightArrow))
+            _playerView.WalkAction(PlayerView.PlayerDirection.Right);
+        else if(Input.GetKey(KeyCode.LeftArrow))
+            _playerView.WalkAction(PlayerView.PlayerDirection.Left);
+        else if(Input.GetKey(KeyCode.UpArrow))
+            _playerView.WalkAction(PlayerView.PlayerDirection.Back);
+        else if(Input.GetKey(KeyCode.DownArrow))
+            _playerView.WalkAction(PlayerView.PlayerDirection.Front);
     }
 }

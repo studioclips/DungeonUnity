@@ -335,6 +335,7 @@ MonoBehaviour:
   - {fileID: -236248526, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
   - {fileID: -833874329, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
   - {fileID: -24429430, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
+  _playerView: {fileID: 1819500286}
 --- !u!4 &1494972303
 Transform:
   m_ObjectHideFlags: 0
@@ -361,6 +362,7 @@ GameObject:
   - component: {fileID: 1819500283}
   - component: {fileID: 1819500285}
   - component: {fileID: 1819500284}
+  - component: {fileID: 1819500286}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -455,6 +457,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1819500286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819500282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b3def64f43a4364ae2fb4d23a57b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2077341266
 GameObject:
   m_ObjectHideFlags: 0
