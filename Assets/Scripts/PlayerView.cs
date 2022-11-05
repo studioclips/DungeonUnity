@@ -64,6 +64,7 @@ public class PlayerView : MonoBehaviour
 
     private static readonly int     PlayerAnimStat        = Animator.StringToHash("PlayerAnimStat");
     private static readonly Vector3 PlayerInitialPosition = new Vector3(-272f, 272f, 0f);
+    private static readonly Vector3 MapLeftTopPosition    = new Vector3(-304, 304, 0);
 
     //  移動終了時呼び出すコールバック関数
     private Action _walkEndCallback = null;
@@ -109,6 +110,19 @@ public class PlayerView : MonoBehaviour
         StartCoroutine(Walking(playerDirection));
     }
 
+    /// <summary>
+    /// プレイヤーの位置を設定する
+    /// </summary>
+    /// <param name="pos">表示する位置</param>
+    public void SetPlayerPosition(Vector3Int pos)
+    {
+        //  プレイヤー管理座標を更新
+        PlayerPos = pos;
+        //  プレイヤー位置座標を更新
+        transform.localPosition =
+            MapLeftTopPosition + (Vector3)(Vector3Int.right * pos.x * 32 + Vector3Int.down * pos.y * 32);
+    }
+    
     /// <summary>
     /// プレイヤーの次の目的地（座標）を取得する
     /// ** 実際には移動はしない。移動確認用に使用する。

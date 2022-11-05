@@ -27,7 +27,7 @@ public class DungeonManager : MonoBehaviour
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,0x0107,0,0,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,1,1,0,0,0x1009,1,1,1,1,1,1,1,1},
+            {1,0,1,1,1,1,1,1,1,0,0,0x2009,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,2,0,0,0,0,0,0,0,0x0109,1,1,1,1,1,1,1},
@@ -36,7 +36,7 @@ public class DungeonManager : MonoBehaviour
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0x0104,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,0x0209,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -222,6 +222,8 @@ public class DungeonManager : MonoBehaviour
     {
         //  落とし穴チェック
         HoleCheck();
+        //  ワープチェック
+        WarpCheck();
     }
     
     /// <summary>
@@ -304,6 +306,38 @@ public class DungeonManager : MonoBehaviour
         {
             _mapFloor--;
             RedrawMap();
+        }
+    }
+
+    /// <summary>
+    /// ワープチェック
+    /// </summary>
+    private void WarpCheck()
+    {
+        //  最初のマップデータとステータスを取得する
+        int mData = GetMapData(_playerView.PlayerPos);
+        int mStat = GetMapStat(_playerView.PlayerPos) >> 4;
+        //  ワープポイントかどうかのチェック
+        if (9 == mData)
+        {
+            //  y を０から１９まで変化させる
+            foreach (int y in Enumerable.Range(0,20))
+            {
+                //  x を０から１９まで変化させる
+                foreach (int x in Enumerable.Range(0,20))
+                {
+                    //  マップ座標を取得
+                    Vector3Int pos = new Vector3Int(x, y, 0);
+                    int        md  = GetMapData(pos);
+                    int        sd  = GetMapStat(pos) & 0x0f;
+                    //  マップがワープポイントで移動先のインデックスと移動予定のインデックスが一致すればそこがワープ先
+                    if (9 == md && mStat == sd)
+                    {
+                        _playerView.SetPlayerPosition(pos);
+                        return;
+                    }
+                }
+            }
         }
     }
     
