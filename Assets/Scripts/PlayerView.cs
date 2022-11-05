@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
+    #region データ関数
+
+
     //  アニメーションに関連あるプレイヤーの状態
     public enum PlayerMode
     {
@@ -62,11 +65,25 @@ public class PlayerView : MonoBehaviour
 
     private static readonly int     PlayerAnimStat        = Animator.StringToHash("PlayerAnimStat");
     private static readonly Vector3 PlayerInitialPosition = new Vector3(-272f, 272f, 0f);
+    private static readonly Vector3 MapLeftTopPosition    = new Vector3(-304,  304,  0);
+
+    //  移動終了時呼び出すコールバック関数
+    private Action _walkEndCallback = null;
+
+    #endregion
 
     private void Awake()
     {
         //  プレイヤーの初期座標を指定する
         transform.localPosition = PlayerInitialPosition;
+    }
+    /// <summary>
+    /// 移動終了時に呼び出す　callback　関数の登録
+    /// </summary>
+    /// <param name="walkEndCallback"></param>
+    public void SetupWalkEndCallback(Action walkEndCallback)
+    {
+        _walkEndCallback = walkEndCallback;
     }
 
     /// <summary>
@@ -93,6 +110,20 @@ public class PlayerView : MonoBehaviour
     }
 
     /// <summary>
+    /// プレイヤーの位置を設定する
+    /// </summary>
+    /// <param name="pos"></param>
+    public void SetPlayerPosition(Vector3Int pos)
+    {
+        //プレイヤーの管理座標を更新
+        PlayerPos = pos;
+        //プレイヤーの位置座標を更新
+        transform.position =
+            MapLeftTopPosition + (Vector3)(Vector3Int.right * pos.x  * 32 + Vector3Int.down * pos.y * 32);
+    } 
+        
+
+    /// <summary>
     /// プレイヤーの次の目的地（座標）を取得する
     /// ** 実際には移動はしない。移動確認用に使用する。
     /// </summary>
@@ -109,6 +140,7 @@ public class PlayerView : MonoBehaviour
     /// <param name="playerDirection">移動方向</param>
     /// <returns></returns>
     private IEnumerator Walking(PlayerDirection playerDirection)
+
     {
         //  キャラクター座標の更新
         PlayerPos += _playerPosAddLists[playerDirection];
@@ -134,5 +166,7 @@ public class PlayerView : MonoBehaviour
             yield return null;
         }
         _isWalking = false;
+        if(null != _walkEndCallback)
+            _walkEndCallback();
     }
 }
