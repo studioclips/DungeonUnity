@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
+#region データ関連
+
     //  アニメーションに関連あるプレイヤーの状態
     public enum PlayerMode
     {
@@ -63,10 +65,25 @@ public class PlayerView : MonoBehaviour
     private static readonly int     PlayerAnimStat        = Animator.StringToHash("PlayerAnimStat");
     private static readonly Vector3 PlayerInitialPosition = new Vector3(-272f, 272f, 0f);
 
+    //  移動終了時呼び出すコールバック関数
+    private Action _walkEndCallback = null;
+
+#endregion
+    
+
     private void Awake()
     {
         //  プレイヤーの初期座標を指定する
         transform.localPosition = PlayerInitialPosition;
+    }
+
+    /// <summary>
+    /// 移動終了時に呼び出す callback 関数の登録
+    /// </summary>
+    /// <param name="walkEndCallback">登録するコールバック関数</param>
+    public void SetupWalkEndCallback(Action walkEndCallback)
+    {
+        _walkEndCallback = walkEndCallback;
     }
 
     /// <summary>
@@ -134,5 +151,7 @@ public class PlayerView : MonoBehaviour
             yield return null;
         }
         _isWalking = false;
+        if (null != _walkEndCallback)
+            _walkEndCallback();
     }
 }
