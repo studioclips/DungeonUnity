@@ -340,6 +340,23 @@ public class DungeonManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 宝箱周囲のチェック
+    /// </summary>
+    /// <param name="aroundDirection"></param>
+    private void TCheck(Vector3Int pos, AroundDirection aroundDirection)
+    {
+        
+    }
+
+    private void TreasureCheck()
+    {
+        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
+        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
+        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
+        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
+    }
     
 #endregion
     

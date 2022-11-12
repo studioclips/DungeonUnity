@@ -62,7 +62,11 @@ public class PlayerView : MonoBehaviour
     //  プレイヤー初期座標
     public Vector3Int PlayerPos { get; private set; } = new Vector3Int(1, 1, 0);
 
-    private static readonly int     PlayerAnimStat        = Animator.StringToHash("PlayerAnimStat");
+    private static readonly int     _frontAction          = Animator.StringToHash("FrontAction");
+    private static readonly int     _rightAction          = Animator.StringToHash("RightAction");
+    private static readonly int     _leftAction           = Animator.StringToHash("LeftAction");
+    private static readonly int     _backAction           = Animator.StringToHash("BackAction");
+    private static readonly int     _idleAction           = Animator.StringToHash("IdleAction");
     private static readonly Vector3 PlayerInitialPosition = new Vector3(-272f, 272f, 0f);
     private static readonly Vector3 MapLeftTopPosition    = new Vector3(-304, 304, 0);
 
@@ -93,7 +97,17 @@ public class PlayerView : MonoBehaviour
     /// <param name="playerMode">アニメーションの状態</param>
     public void SetAnimationState(PlayerMode playerMode)
     {
-        _animator.SetInteger(PlayerAnimStat, (int)playerMode);
+        //  同じアニメーションをリクエストしていたら再呼び出ししない
+        if(_playerMode == playerMode) return;
+        _playerMode = playerMode;
+        switch (playerMode)
+        {
+            case PlayerMode.FrontWalk: _animator.SetTrigger(_frontAction); break;
+            case PlayerMode.RightWalk: _animator.SetTrigger(_rightAction); break;
+            case PlayerMode.LeftWalk:  _animator.SetTrigger(_leftAction); break;
+            case PlayerMode.BackWalk:  _animator.SetTrigger(_backAction); break;
+            default:                   _animator.SetTrigger(_idleAction); break;
+        }
     }
 
     /// <summary>
