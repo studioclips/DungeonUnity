@@ -172,35 +172,38 @@ public class DungeonManager : MonoBehaviour
 
     private void Update()
     {
-        //  右の矢印を押した？
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (false == _playerView.IsWalking)
         {
-            if(IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Right)))
-                _playerView.WalkAction(PlayerView.PlayerDirection.Right);
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if(IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Left)))
-                _playerView.WalkAction(PlayerView.PlayerDirection.Left);
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            if(IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Back)))
-                _playerView.WalkAction(PlayerView.PlayerDirection.Back);
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            if(IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Front)))
-                _playerView.WalkAction(PlayerView.PlayerDirection.Front);
-        }
-        else if (false == _playerView.IsWalking)
-        {
-            _playerView.SetAnimationState(PlayerView.PlayerMode.Idle);
-            //  移動終了していてスペースキーを押した場合
-            if (Input.GetKeyDown(KeyCode.Space))
+            //  右の矢印を押した？
+            if (Input.GetKey(KeyCode.RightArrow))
             {
-                //  マップのイベントをチェックする
-                MapEventCheck();
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Right));
+                _playerView.WalkAction(PlayerView.PlayerDirection.Right, isWalkEnable);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Left));
+                _playerView.WalkAction(PlayerView.PlayerDirection.Left, isWalkEnable);
+            }
+            else if (Input.GetKey(KeyCode.UpArrow))
+            {
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Back));
+                _playerView.WalkAction(PlayerView.PlayerDirection.Back, isWalkEnable);
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Front));
+                _playerView.WalkAction(PlayerView.PlayerDirection.Front, isWalkEnable);
+            }
+            else if(false == _playerView.IsWalking)
+            {
+                _playerView.SetAnimationState(PlayerView.PlayerMode.Idle);
+                //  移動終了していてスペースキーを押した場合
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    //  マップのイベントをチェックする
+                    MapEventCheck();
+                }
             }
         }
     }
@@ -353,9 +356,9 @@ public class DungeonManager : MonoBehaviour
     private void TreasureCheck()
     {
         TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
-        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
-        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
-        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
+        TCheck(_playerView.PlayerPos + Vector3Int.down, AroundDirection.Down);
+        TCheck(_playerView.PlayerPos + Vector3Int.left, AroundDirection.Left);
+        TCheck(_playerView.PlayerPos + Vector3Int.right, AroundDirection.Right);
     }
     
 #endregion

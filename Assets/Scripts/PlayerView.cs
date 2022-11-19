@@ -80,6 +80,8 @@ public class PlayerView : MonoBehaviour
 
     //  移動終了時呼び出すコールバック関数
     private Action _walkEndCallback = null;
+    //  現在のプレイヤーの向き
+    private PlayerDirection _playerDirection = PlayerDirection.None;
 
 #endregion
     
@@ -126,12 +128,17 @@ public class PlayerView : MonoBehaviour
     /// 移動処理
     /// </summary>
     /// <param name="playerDirection">移動方向</param>
-    public void WalkAction(PlayerDirection playerDirection)
+    public void WalkAction(PlayerDirection playerDirection, bool isWalkEnable)
     {
         //  すでに移動中ならば何もしない
         if (_isWalking) return;
         _isWalking = true;
         SetAnimationState((PlayerMode)playerDirection);
+        if (false == isWalkEnable)
+        {
+            _isWalking = false;
+            return;
+        }
         //  移動開始
         StartCoroutine(Walking(playerDirection));
     }
@@ -193,5 +200,20 @@ public class PlayerView : MonoBehaviour
         _isWalking = false;
         if (null != _walkEndCallback)
             _walkEndCallback();
+    }
+
+    /// <summary>
+    /// キーを入力した際のプレイヤーの向き設定
+    /// </summary>
+    /// <param name="playerDirection">プレイヤーの向き</param>
+    public void PlayerDirectionSet(PlayerDirection playerDirection)
+    {
+        switch (playerDirection)
+        {
+            case PlayerDirection.Back: _animator.SetTrigger(_backIdle); break;
+            case PlayerDirection.Front: _animator.SetTrigger(_frontIdle); break;
+            case PlayerDirection.Left: _animator.SetTrigger(_leftIdle); break;
+            case PlayerDirection.Right: _animator.SetTrigger(_rightIdle); break;
+        }
     }
 }
