@@ -11,11 +11,15 @@ public class PlayerView : MonoBehaviour
     //  アニメーションに関連あるプレイヤーの状態
     public enum PlayerMode
     {
-        Idle = 0,
+        Idle      = 0,
         RightWalk = 1,
         FrontWalk = 2,
-        LeftWalk = 3,
-        BackWalk = 4
+        LeftWalk  = 3,
+        BackWalk  = 4,
+        RIdle     = 5,
+        FIdle     = 6,
+        LIdle     = 7,
+        BIdle     = 8,
     }
 
     //  プレイヤーの向き
@@ -67,6 +71,10 @@ public class PlayerView : MonoBehaviour
     private static readonly int     _leftAction           = Animator.StringToHash("LeftAction");
     private static readonly int     _backAction           = Animator.StringToHash("BackAction");
     private static readonly int     _idleAction           = Animator.StringToHash("IdleAction");
+    private static readonly int     _frontIdle          = Animator.StringToHash("FIdle");
+    private static readonly int     _rightIdle          = Animator.StringToHash("RIdle");
+    private static readonly int     _leftIdle           = Animator.StringToHash("LIdle");
+    private static readonly int     _backIdle           = Animator.StringToHash("BIdle");
     private static readonly Vector3 PlayerInitialPosition = new Vector3(-272f, 272f, 0f);
     private static readonly Vector3 MapLeftTopPosition    = new Vector3(-304, 304, 0);
 
@@ -106,6 +114,10 @@ public class PlayerView : MonoBehaviour
             case PlayerMode.RightWalk: _animator.SetTrigger(_rightAction); break;
             case PlayerMode.LeftWalk:  _animator.SetTrigger(_leftAction); break;
             case PlayerMode.BackWalk:  _animator.SetTrigger(_backAction); break;
+            case PlayerMode.FIdle: _animator.SetTrigger(_frontIdle); break;
+            case PlayerMode.RIdle: _animator.SetTrigger(_rightIdle); break;
+            case PlayerMode.LIdle:  _animator.SetTrigger(_leftIdle); break;
+            case PlayerMode.BIdle:  _animator.SetTrigger(_backIdle); break;
             default:                   _animator.SetTrigger(_idleAction); break;
         }
     }
