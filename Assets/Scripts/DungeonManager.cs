@@ -24,10 +24,10 @@ public class DungeonManager : MonoBehaviour
         {
         //   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,1,1,0x0107,0,0,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,1,1,0,0,0x2009,1,1,1,1,1,1,1,1},
+            {1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,1,1,0,1,1,1,1,0x0107,0,0,1,1,1,1,1,1,1,1},
+            {1,0,1,1,0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1},
+            {1,0,1,1,0,0,0,0,0x0204,0,0,0x2009,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,2,0,0,0,0,0,0,0,0x0109,1,1,1,1,1,1,1},
@@ -35,7 +35,7 @@ public class DungeonManager : MonoBehaviour
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,0,0,0x0104,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0x0104,0,0,0,0,2,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,0x0209,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -58,9 +58,9 @@ public class DungeonManager : MonoBehaviour
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,1,1,1,1,1,3,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,0x0207,0,0,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -129,14 +129,14 @@ public class DungeonManager : MonoBehaviour
         //  どのチップとも一致しなければ通り抜け可能なので true を返す
         return true;
     }
-    
+
     private void MapMake()
     {
         //  y を０から１９まで変化させる
-        foreach (int y in Enumerable.Range(0,20))
+        foreach (int y in Enumerable.Range(0, 20))
         {
             //  x を０から１９まで変化させる
-            foreach (int x in Enumerable.Range(0,20))
+            foreach (int x in Enumerable.Range(0, 20))
             {
                 //  プレハブの実態をヒエラルキーに生成する
                 GameObject gobj = Instantiate(_mapParts, _parent);
@@ -158,10 +158,10 @@ public class DungeonManager : MonoBehaviour
     private void RedrawMap()
     {
         //  y を０から１９まで変化させる
-        foreach (int y in Enumerable.Range(0,20))
+        foreach (int y in Enumerable.Range(0, 20))
         {
             //  x を０から１９まで変化させる
-            foreach (int x in Enumerable.Range(0,20))
+            foreach (int x in Enumerable.Range(0, 20))
             {
                 int index = y * 20 + x;
                 int mData = GetMapData(new Vector3Int(x, y, 0));
@@ -195,7 +195,7 @@ public class DungeonManager : MonoBehaviour
                 bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Front));
                 _playerView.WalkAction(PlayerView.PlayerDirection.Front, isWalkEnable);
             }
-            else if(false == _playerView.IsWalking)
+            else if (false == _playerView.IsWalking)
             {
                 _playerView.SetAnimationState(PlayerView.PlayerMode.Idle);
                 //  移動終了していてスペースキーを押した場合
@@ -208,7 +208,10 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-#region イベントチェック
+    #region イベントチェック
+
+    //  鍵の保存場所
+    private List<int> _doorKeys = new List<int>() { 0, 0, 0, 0 };
 
     private enum AroundDirection
     {
@@ -217,6 +220,17 @@ public class DungeonManager : MonoBehaviour
         Down,
         Right
     }
+
+    //  辞書テーブルの用意（向きのenumとその方向のベクトルをセットにして登録）
+    private Dictionary<PlayerView.PlayerDirection, Vector3Int> _directionVecLists =
+        new Dictionary<PlayerView.PlayerDirection, Vector3Int>()
+        {
+            {PlayerView.PlayerDirection.None, Vector3Int.zero},
+            {PlayerView.PlayerDirection.Back, Vector3Int.down},
+            {PlayerView.PlayerDirection.Left, Vector3Int.left},
+            {PlayerView.PlayerDirection.Right, Vector3Int.right},
+            {PlayerView.PlayerDirection.Front, Vector3Int.up}
+        };
 
     /// <summary>
     /// 移動終了で呼び出されるコールバック関数
@@ -228,7 +242,7 @@ public class DungeonManager : MonoBehaviour
         //  ワープチェック
         WarpCheck();
     }
-    
+
     /// <summary>
     /// 座標から index を取得する
     /// </summary>
@@ -259,15 +273,20 @@ public class DungeonManager : MonoBehaviour
         }
         return _playerView.PlayerPos;
     }
-    
-    
+
+
     /// <summary>
     /// マップのイベントチェック
     /// </summary>
     private void MapEventCheck()
     {
-        if(UpFloorCheck())
+        //  階段上り下りのチェック
+        if (UpFloorCheck())
             DownFloorCheck();
+        //  宝箱のチェック
+        TreasureCheck();
+        //  ドアチェック
+        DoorCheck();
     }
 
     /// <summary>
@@ -324,15 +343,15 @@ public class DungeonManager : MonoBehaviour
         if (9 == mData)
         {
             //  y を０から１９まで変化させる
-            foreach (int y in Enumerable.Range(0,20))
+            foreach (int y in Enumerable.Range(0, 20))
             {
                 //  x を０から１９まで変化させる
-                foreach (int x in Enumerable.Range(0,20))
+                foreach (int x in Enumerable.Range(0, 20))
                 {
                     //  マップ座標を取得
                     Vector3Int pos = new Vector3Int(x, y, 0);
-                    int        md  = GetMapData(pos);
-                    int        sd  = GetMapStat(pos) & 0x0f;
+                    int md = GetMapData(pos);
+                    int sd = GetMapStat(pos) & 0x0f;
                     //  マップがワープポイントで移動先のインデックスと移動予定のインデックスが一致すればそこがワープ先
                     if (9 == md && mStat == sd)
                     {
@@ -344,23 +363,57 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 宝箱周囲のチェック
-    /// </summary>
-    /// <param name="aroundDirection"></param>
-    private void TCheck(Vector3Int pos, AroundDirection aroundDirection)
-    {
-        
-    }
-
     private void TreasureCheck()
     {
-        TCheck(_playerView.PlayerPos + Vector3Int.up, AroundDirection.Up);
-        TCheck(_playerView.PlayerPos + Vector3Int.down, AroundDirection.Down);
-        TCheck(_playerView.PlayerPos + Vector3Int.left, AroundDirection.Left);
-        TCheck(_playerView.PlayerPos + Vector3Int.right, AroundDirection.Right);
+        //  向いている方向の座標を取得
+        var checkPos = _playerView.PlayerPos + _directionVecLists[_playerView.PlayerDir];
+        //  マップチップデータを取得
+        var mData = GetMapData(checkPos);
+        //  マップステータスを取得
+        var sData = GetMapStat(checkPos);
+        //  マップチップデータが閉じた宝箱ならば処理する
+        if (7 == mData)
+        {
+            //  宝箱の鍵の番号を調整（１〜なので０〜に直すために１マイナスする）
+            sData--;
+            //  持っている鍵が追加される
+            _doorKeys[sData]++;
+            //  閉じた宝箱を開いた宝箱に変更
+            _mapDataList[_mapFloor, checkPos.y, checkPos.x] = 8;
+            //  マップチップの配置場所を取得
+            var index = checkPos.y * 20 + checkPos.x;
+            //  対象のスプライトを入れ替える
+            _chipViews[index].SetImage(_mapChipSprites[8]);
+        }
     }
-    
-#endregion
-    
+
+    private void DoorCheck()
+    {
+        //  向いている方向の座標を取得
+        var checkPos = _playerView.PlayerPos + _directionVecLists[_playerView.PlayerDir];
+        //  マップチップデータを取得
+        var mData = GetMapData(checkPos);
+        //  マップステータスを取得
+        var sData = GetMapStat(checkPos);
+        //  マップチップデータが扉ならば処理する
+        if (4 == mData)
+        {
+            //  宝箱の鍵の番号を調整（１〜なので０〜に直すために１マイナスする）
+            sData--;
+            if (0 < _doorKeys[sData])
+            {
+                //  持っている鍵が消費される
+                _doorKeys[sData]--;
+                //  扉を地面に変更
+                _mapDataList[_mapFloor, checkPos.y, checkPos.x] = 0;
+                //  マップチップの配置場所を取得
+                var index = checkPos.y * 20 + checkPos.x;
+                //  対象のスプライトを入れ替える
+                _chipViews[index].SetImage(_mapChipSprites[0]);
+            }
+        }
+    }
+
+    #endregion
+
 }

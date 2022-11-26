@@ -61,4 +61,4 @@ crashlytics-build.properties
 .DS_Store
 Assets/.DS_Store
 .idea/.idea.DungeonUnity/.idea/*
-.vscode/settings.json
+.vscode/*
