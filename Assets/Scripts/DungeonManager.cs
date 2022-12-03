@@ -11,9 +11,17 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private GameObject _mapParts = null;
 
+    //  重ね合わせ用の半透明壁オブジェクトプレハブ
+    [SerializeField]
+    private GameObject _overMapParts = null;
+
     //  親オブジェクト
     [SerializeField]
     private Transform _parent = null;
+
+    //  上に重ねるマップ配置用の親オブジェクト
+    [SerializeField]
+    private Transform _overMapParent = null;
 
     //  マップチップスプライト
     [SerializeField]
@@ -30,13 +38,13 @@ public class DungeonManager : MonoBehaviour
             {1,0,1,1,0,0,0,0,0x0204,0,0,0x2009,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,1,2,0,0,0,0,0,0,0,0x0109,1,1,1,1,1,1,1},
+            {1,0,1,1,2,0,0,0,0x0304,0,0,0,0x0109,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,1,1,1,1,1,0,0x0101,0,0,0,1,1,1,1,1,1,1,1},
+            {1,0,1,1,1,1,1,0,1,0,0,0x0307,1,1,1,1,1,1,1,1},
             {1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0x0104,0,0,0,0,2,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,0x0209,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,0x2209,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -74,6 +82,9 @@ public class DungeonManager : MonoBehaviour
 
     //  生成したマップオブジェクトを格納する場所
     private List<ChipView> _chipViews = new List<ChipView>();
+
+    //  生成したオーバーマップオブジェクトを格納する場所
+    private List<GameObject> _chipOverViews = new List<GameObject>();
 
     //  現在の階数（0:１階, 1:２階...）
     private int _mapFloor = 0;
@@ -130,6 +141,9 @@ public class DungeonManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// マップの初期生成
+    /// </summary>
     private void MapMake()
     {
         //  y を０から１９まで変化させる
@@ -140,14 +154,23 @@ public class DungeonManager : MonoBehaviour
             {
                 //  プレハブの実態をヒエラルキーに生成する
                 GameObject gobj = Instantiate(_mapParts, _parent);
+                //  重ね合わせオブジェクトをヒエラルキーに生成する
+                GameObject gOverobj = Instantiate(_overMapParts, _overMapParent);
                 //  表示座標を設定する
                 gobj.transform.localPosition = new Vector3(-304 + x * 32, 304 - y * 32, 0);
+                gOverobj.transform.localPosition = new Vector3(-304 + x * 32, 304 - y * 32, 0);
                 //  マップチップデータの取得
                 int mData = GetMapData(new Vector3Int(x, y, 0));
+                //  マップチップステータスの取得
+                int mStat = GetMapStat(new Vector3Int(x, y, 0));
                 //  マップスプライトの設定
                 gobj.GetComponent<ChipView>().SetImage(_mapChipSprites[mData]);
                 //  マップチップオブジェクトの格納
                 _chipViews.Add(gobj.GetComponent<ChipView>());
+                //  重ね合わせのオブジェクト表示を操作
+                gOverobj.SetActive(1 == mData && 1 == mStat);
+                //  オーバーマップチップオブジェクトの格納
+                _chipOverViews.Add(gOverobj);
             }
         }
     }
@@ -165,7 +188,9 @@ public class DungeonManager : MonoBehaviour
             {
                 int index = y * 20 + x;
                 int mData = GetMapData(new Vector3Int(x, y, 0));
+                int mStat = GetMapStat(new Vector3Int(x, y, 0));
                 _chipViews[index].SetImage(_mapChipSprites[mData]);
+                _chipOverViews[index].SetActive(1 == mData && 1 == mStat);
             }
         }
     }
