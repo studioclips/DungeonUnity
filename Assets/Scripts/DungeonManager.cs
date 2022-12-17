@@ -27,6 +27,10 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private List<Sprite> _mapChipSprites = new List<Sprite>();
 
+    //  メッセージウィンドウマネージャー
+    [SerializeField]
+    private MessageWindowManager _messageWindowManager = null;
+
     private int[,,] _mapDataList = new int[,,]
     {
         {
@@ -91,6 +95,9 @@ public class DungeonManager : MonoBehaviour
 
     //  当たり判定のマップキャラクター番号
     private List<int> _mapHitTable = new List<int>() { 1, 4, 7, 8 };
+
+    //  メッセージウィンドウが開いているかどうかのフラグ
+    private bool _isWindowOpen = false;
 
     // Start is called before the first frame update
     void Start()
@@ -197,6 +204,18 @@ public class DungeonManager : MonoBehaviour
 
     private void Update()
     {
+        if(_isWindowOpen)
+        {
+            //if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) ||
+                Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                _isWindowOpen = false;
+                CloseMessage();
+            }
+            else
+                return;
+        }
         if (false == _playerView.IsWalking)
         {
             //  右の矢印を押した？
@@ -325,6 +344,7 @@ public class DungeonManager : MonoBehaviour
         {
             _mapFloor++;
             RedrawMap();
+            DispMessage(MessageWindowManager.MessageType.UpMessage, _mapFloor + 1);
             return false;
         }
         return true;
@@ -340,6 +360,7 @@ public class DungeonManager : MonoBehaviour
         {
             _mapFloor--;
             RedrawMap();
+            DispMessage(MessageWindowManager.MessageType.DownMessage, _mapFloor + 1);
         }
     }
 
@@ -353,6 +374,7 @@ public class DungeonManager : MonoBehaviour
         {
             _mapFloor--;
             RedrawMap();
+            DispMessage(MessageWindowManager.MessageType.HoleMessage, _mapFloor + 1);
         }
     }
 
@@ -441,4 +463,27 @@ public class DungeonManager : MonoBehaviour
 
     #endregion
 
+
+    #region メッセージウィンドウ関連
+
+    /// <summary>
+    /// メッセージウィンドウを開く
+    /// </summary>
+    /// <param name="messageType">メッセージのタイプ</param>
+    /// <param name="number">必要な数値</param>
+    private void DispMessage(MessageWindowManager.MessageType messageType, int number)
+    {
+        _isWindowOpen = true;
+        _messageWindowManager.DispMessage(messageType, number);
+    }
+
+    /// <summary>
+    /// メッセージウィンドウを閉じる
+    /// </summary>
+    private void CloseMessage()
+    {
+        _messageWindowManager.CloseMessage();
+    }
+
+    #endregion
 }

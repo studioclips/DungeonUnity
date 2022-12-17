@@ -417,6 +417,7 @@ MonoBehaviour:
   - {fileID: -236248526, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
   - {fileID: -833874329, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
   - {fileID: -24429430, guid: e37e514480eb84c9cb44f1cbd2ee08b0, type: 3}
+  _messageWindowManager: {fileID: 1706300851}
   _playerView: {fileID: 1819500286}
 --- !u!4 &1494972303
 Transform:
@@ -443,6 +444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1706300849}
   - component: {fileID: 1706300850}
+  - component: {fileID: 1706300851}
   m_Layer: 5
   m_Name: MessageWindow
   m_TagString: Untagged
@@ -483,6 +485,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1706300851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706300848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b389ed9879d7f034c94652610cd29f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 1706300850}
+  _messageText: {fileID: 847793489}
 --- !u!1 &1819500282
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1819500284}
-  _walkSpeed: 0.4
+  _walkSpeed: 0.8
 --- !u!1 &1933608882
 GameObject:
   m_ObjectHideFlags: 0

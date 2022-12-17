@@ -62,3 +62,4 @@ crashlytics-build.properties
 Assets/.DS_Store
 .idea/.idea.DungeonUnity/.idea/*
 .vscode/*
+.vsconfig
