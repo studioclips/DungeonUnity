@@ -82,7 +82,7 @@ public class DungeonManager : MonoBehaviour
     };
 
     [SerializeField, Header("プレイヤーをアタッチする")]
-    private PlayerView _playerView = null;
+    private PlayerView2 _playerView = null;
 
     //  生成したマップオブジェクトを格納する場所
     private List<ChipView> _chipViews = new List<ChipView>();
@@ -221,27 +221,27 @@ public class DungeonManager : MonoBehaviour
             //  右の矢印を押した？
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Right));
-                _playerView.WalkAction(PlayerView.PlayerDirection.Right, isWalkEnable);
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView2.PlayerDirection.Right));
+                _playerView.WalkAction(PlayerView2.PlayerDirection.Right, isWalkEnable);
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
-                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Left));
-                _playerView.WalkAction(PlayerView.PlayerDirection.Left, isWalkEnable);
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView2.PlayerDirection.Left));
+                _playerView.WalkAction(PlayerView2.PlayerDirection.Left, isWalkEnable);
             }
             else if (Input.GetKey(KeyCode.UpArrow))
             {
-                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Back));
-                _playerView.WalkAction(PlayerView.PlayerDirection.Back, isWalkEnable);
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView2.PlayerDirection.Back));
+                _playerView.WalkAction(PlayerView2.PlayerDirection.Back, isWalkEnable);
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView.PlayerDirection.Front));
-                _playerView.WalkAction(PlayerView.PlayerDirection.Front, isWalkEnable);
+                bool isWalkEnable = IsWalkEnable(_playerView.GetNextPosition(PlayerView2.PlayerDirection.Front));
+                _playerView.WalkAction(PlayerView2.PlayerDirection.Front, isWalkEnable);
             }
             else if (false == _playerView.IsWalking)
             {
-                _playerView.SetAnimationState(PlayerView.PlayerMode.Idle);
+                _playerView.SetAnimationState(PlayerView2.PlayerMode.Idle);
                 //  移動終了していてスペースキーを押した場合
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -266,14 +266,14 @@ public class DungeonManager : MonoBehaviour
     }
 
     //  辞書テーブルの用意（向きのenumとその方向のベクトルをセットにして登録）
-    private Dictionary<PlayerView.PlayerDirection, Vector3Int> _directionVecLists =
-        new Dictionary<PlayerView.PlayerDirection, Vector3Int>()
+    private Dictionary<PlayerView2.PlayerDirection, Vector3Int> _directionVecLists =
+        new Dictionary<PlayerView2.PlayerDirection, Vector3Int>()
         {
-            {PlayerView.PlayerDirection.None, Vector3Int.zero},
-            {PlayerView.PlayerDirection.Back, Vector3Int.down},
-            {PlayerView.PlayerDirection.Left, Vector3Int.left},
-            {PlayerView.PlayerDirection.Right, Vector3Int.right},
-            {PlayerView.PlayerDirection.Front, Vector3Int.up}
+            {PlayerView2.PlayerDirection.None, Vector3Int.zero},
+            {PlayerView2.PlayerDirection.Back, Vector3Int.down},
+            {PlayerView2.PlayerDirection.Left, Vector3Int.left},
+            {PlayerView2.PlayerDirection.Right, Vector3Int.right},
+            {PlayerView2.PlayerDirection.Front, Vector3Int.up}
         };
 
     /// <summary>
